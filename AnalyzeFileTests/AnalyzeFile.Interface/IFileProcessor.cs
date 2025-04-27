@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace AnalyzeFile.Interface;
+﻿namespace AnalyzeFile.Interface;
 
 public interface IFileProcessor
 {

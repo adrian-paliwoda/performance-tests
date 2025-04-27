@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-
-namespace AnalyzeFile.Core.DataGeneration;
+﻿namespace AnalyzeFile.Core.DataGeneration;
 
 public class FileGenerator : IFileGenerator
 {

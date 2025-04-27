@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace AnalyzeFile.Model.Extensions;
+﻿namespace AnalyzeFile.Model.Extensions;
 
 public static class ListExtension
 {

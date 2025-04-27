@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
-using AnalyzeFile.Interface;
+﻿using AnalyzeFile.Interface;
 using AnalyzeFile.Model.Extensions;
 
 namespace AnalyzeManyFiles.Core;

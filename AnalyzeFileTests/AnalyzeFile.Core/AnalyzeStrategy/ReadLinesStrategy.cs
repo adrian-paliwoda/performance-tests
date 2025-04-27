@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using AnalyzeFile.Interface;
+﻿using AnalyzeFile.Interface;
 using AnalyzeFile.Model.Extensions;
 
 namespace AnalyzeFile.Core.AnalyzeStrategy;

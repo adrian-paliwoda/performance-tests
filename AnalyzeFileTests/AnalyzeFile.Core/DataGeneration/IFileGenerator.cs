@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AnalyzeFile.Core.DataGeneration;
+﻿namespace AnalyzeFile.Core.DataGeneration;
 
 public interface IFileGenerator
 {

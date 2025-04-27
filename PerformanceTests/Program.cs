@@ -1,5 +1,4 @@
-﻿using BenchmarkDotNet.Exporters.Json;
-using BenchmarkDotNet.Running;
+﻿using BenchmarkDotNet.Running;
 using PerformanceTests.Tests;
 
 namespace PerformanceTests

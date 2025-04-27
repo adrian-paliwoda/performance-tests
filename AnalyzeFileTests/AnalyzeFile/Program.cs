@@ -1,6 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using System;
 using AnalyzeFile.Core;
 using AnalyzeFile.Core.AnalyzeStrategy;
 using AnalyzeFile.Model.Extensions;

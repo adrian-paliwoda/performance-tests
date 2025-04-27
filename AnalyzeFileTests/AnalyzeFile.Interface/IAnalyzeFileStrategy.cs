@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace AnalyzeFile.Interface;
+﻿namespace AnalyzeFile.Interface;
 
 public interface IAnalyzeFileStrategy
 {

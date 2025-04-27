@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-
-namespace SampleData;
+﻿namespace SampleData;
 
 public static class Paths
 {

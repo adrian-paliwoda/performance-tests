@@ -3,6 +3,7 @@
 using AnalyzeFile.Core;
 using AnalyzeFile.Core.AnalyzeStrategy;
 using AnalyzeFile.Model.Extensions;
+using AnalyzeManyFiles.Core;
 using SampleData;
 
 Console.WriteLine("Application started!");
@@ -22,5 +23,9 @@ var fileProcessor2 = new FileProcessor(new ReadAllLinesWithForeachStrategy());
 var fileProcessor3 = new FileProcessor(new ReadAllLinesWithForStrategy());
 var fileProcessor4 = new FileProcessor(new StringSplitStrategy());
 
-var result = await fileProcessor0.AnalyzeFiles(Paths.TodayReportMediumPath, Paths.YesterdayReportMediumPath);
+var fileProcessor5 = new FileProcessorTaskWIthSharedHashSet(new StreamReaderWithReadLineStrategyWithSharedHashSetStrategy());
+var fileProcessor6 = new FileProcessorTaskWIthSharedConcurrentDictionary(new StreamReaderWithReadLineStrategyWithSharedConcurrentDictionaryStrategy());
+
+
+var result = await fileProcessor6.AnalyzeFiles(Paths.TodayReportMediumPath, Paths.YesterdayReportMediumPath);
 result.ShowInConsoleFormated();

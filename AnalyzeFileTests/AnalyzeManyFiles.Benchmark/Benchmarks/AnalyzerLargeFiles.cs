@@ -41,7 +41,14 @@ public class AnalyzerLargeFiles
     [Benchmark]
     public void LargeFile_SharedHashSet()
     {
-        var fileProcessor = new FileProcessorTaskWIthSharedHashSet(new StreamReaderWithReadLineStrategyWithSharedHashSet());
+        var fileProcessor = new FileProcessorTaskWIthSharedHashSet(new StreamReaderWithReadLineStrategyWithSharedHashSetStrategy());
+        _ = fileProcessor.AnalyzeFiles(TodayReportPath, YesterdayReportPath);
+    }
+    
+    [Benchmark]
+    public void LargeFile_SharedConcurrentDictionary()
+    {
+        var fileProcessor = new FileProcessorTaskWIthSharedConcurrentDictionary(new StreamReaderWithReadLineStrategyWithSharedConcurrentDictionaryStrategy());
         _ = fileProcessor.AnalyzeFiles(TodayReportPath, YesterdayReportPath);
     }
 }

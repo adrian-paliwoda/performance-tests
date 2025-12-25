@@ -1,13 +1,12 @@
-﻿using AnalyzeFile.Interface;
+using AnalyzeFile.Interface;
 using AnalyzeFile.Model.Extensions;
 
 namespace AnalyzeFile.Core.AnalyzeStrategy;
 
-public class StreamReaderWithReadLineStrategy : IAnalyzeFileStrategy
+public class StreamReaderWithReadLineStrategyWithSharedHashSetStrategy : IAnalyzeFileStrategyWithSharedHashSet
 {
-    public List<(string, string)> AnalyzeData(string pathToReport)
+    public void AnalyzeData(string pathToReport, HashSet<(string, string)> sharedHashSet)
     {
-        var results = new List<(string, string)>();
         var usersDocumentsAccess = new Dictionary<int, Dictionary<int, bool>>();
 
         using (var streamReader = new StreamReader(pathToReport))
@@ -26,7 +25,10 @@ public class StreamReaderWithReadLineStrategy : IAnalyzeFileStrategy
                         !usersDocumentsAccess[lineResult.UserId][lineResult.DocumentId])
                     {
                         usersDocumentsAccess[lineResult.UserId][lineResult.DocumentId] = true;
-                        results.Add((lineResult.UserId.ToString(), lineResult.DocumentId.ToString()));
+                        lock (sharedHashSet)
+                        {
+                            sharedHashSet.Add((lineResult.UserId.ToString(), lineResult.DocumentId.ToString()));
+                        }
                     }
                 }
                 else
@@ -36,7 +38,5 @@ public class StreamReaderWithReadLineStrategy : IAnalyzeFileStrategy
                 }
             }
         }
-
-        return results;
     }
 }

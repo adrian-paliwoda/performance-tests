@@ -10,6 +10,7 @@
     <ItemGroup>
       <ProjectReference Include="..\AnalyzeFile.Core\AnalyzeFile.Core.csproj" />
       <ProjectReference Include="..\AnalyzeFile.Model\AnalyzeFile.Model.csproj" />
+      <ProjectReference Include="..\AnalyzeManyFiles.Core\AnalyzeManyFiles.Core.csproj" />
       <ProjectReference Include="..\SampleData\SampleData.csproj" />
     </ItemGroup>
 

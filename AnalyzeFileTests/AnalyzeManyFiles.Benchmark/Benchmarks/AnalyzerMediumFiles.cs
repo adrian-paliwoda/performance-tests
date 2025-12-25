@@ -41,7 +41,14 @@ public class AnalyzerMediumFiles
     [Benchmark]
     public void MediumFile_SharedHashSet()
     {
-        var fileProcessor = new FileProcessorTaskWIthSharedHashSet(new StreamReaderWithReadLineStrategyWithSharedHashSet());
+        var fileProcessor = new FileProcessorTaskWIthSharedHashSet(new StreamReaderWithReadLineStrategyWithSharedHashSetStrategy());
+        _ = fileProcessor.AnalyzeFiles(TodayReportPath, YesterdayReportPath);
+    }
+    
+    [Benchmark]
+    public void Medium_File_SharedConcurrentDictionary()
+    {
+        var fileProcessor = new FileProcessorTaskWIthSharedConcurrentDictionary(new StreamReaderWithReadLineStrategyWithSharedConcurrentDictionaryStrategy());
         _ = fileProcessor.AnalyzeFiles(TodayReportPath, YesterdayReportPath);
     }
 }

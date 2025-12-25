@@ -23,4 +23,4 @@ var fileProcessor3 = new FileProcessor(new ReadAllLinesWithForStrategy());
 var fileProcessor4 = new FileProcessor(new StringSplitStrategy());
 
 var result = await fileProcessor0.AnalyzeFiles(Paths.TodayReportMediumPath, Paths.YesterdayReportMediumPath);
-result.ShowInConsole();
+result.ShowInConsoleFormated();

@@ -13,6 +13,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\AnalyzeFile\AnalyzeFile.csproj" />
+      <ProjectReference Include="..\AnalyzeManyFiles.Benchmark\AnalyzeManyFiles.Benchmark.csproj" />
       <ProjectReference Include="..\SampleData\SampleData.csproj" />
     </ItemGroup>
 

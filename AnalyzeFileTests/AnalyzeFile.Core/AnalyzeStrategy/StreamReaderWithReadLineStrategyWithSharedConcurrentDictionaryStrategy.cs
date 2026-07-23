@@ -26,10 +26,7 @@ public class StreamReaderWithReadLineStrategyWithSharedConcurrentDictionaryStrat
                         !usersDocumentsAccess[lineResult.UserId][lineResult.DocumentId])
                     {
                         usersDocumentsAccess[lineResult.UserId][lineResult.DocumentId] = true;
-                        lock (sharedHashSet)
-                        {
-                            sharedHashSet.TryAdd((lineResult.UserId.ToString(), lineResult.DocumentId.ToString()), true);
-                        }
+                        sharedHashSet.TryAdd((lineResult.UserId.ToString(), lineResult.DocumentId.ToString()), true);
                     }
                 }
                 else

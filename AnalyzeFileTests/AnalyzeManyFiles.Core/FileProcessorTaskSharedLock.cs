@@ -21,77 +21,48 @@ public class FileProcessorTaskSharedLock : IFileProcessor
             return [];
         }
 
-        var results = new List<(string, string)>();
+        var results = new HashSet<(string, string)>();
+
+        var task0 = Task.Run(() => AnalyzeSingleFile(pathToTodayReport, results));
+        var task1 = Task.Run(() => AnalyzeSingleFile(pathToYesterdayReport, results));
+
+        await Task.WhenAll(task0, task1);
+
+        return results.ToList();
+    }
+
+    private static void AnalyzeSingleFile(string pathToReport, HashSet<(string, string)> results)
+    {
         var usersDocumentsAccess = new Dictionary<int, Dictionary<int, bool>>();
 
-        await Task.Run(() =>
+        using (var streamReader = new StreamReader(pathToReport))
         {
-            using (var streamReader = new StreamReader(pathToTodayReport))
+            while (streamReader.ReadLine() is { } singleLine)
             {
-                while (streamReader.ReadLine() is { } singleLine)
+                var lineResult = singleLine.GetDateFromLine();
+                if (!lineResult.IsSuccess)
                 {
-                    var lineResult = singleLine.GetDateFromLine();
-                    if (!lineResult.IsSuccess)
-                    {
-                        continue;
-                    }
+                    continue;
+                }
 
-                    lock (results)
+                if (usersDocumentsAccess.ContainsKey(lineResult.UserId))
+                {
+                    if (!usersDocumentsAccess[lineResult.UserId].TryAdd(lineResult.DocumentId, false) &&
+                        !usersDocumentsAccess[lineResult.UserId][lineResult.DocumentId])
                     {
-                        if (usersDocumentsAccess.ContainsKey(lineResult.UserId))
+                        usersDocumentsAccess[lineResult.UserId][lineResult.DocumentId] = true;
+                        lock (results)
                         {
-                            if (!usersDocumentsAccess[lineResult.UserId].TryAdd(lineResult.DocumentId, false) &&
-                                !usersDocumentsAccess[lineResult.UserId][lineResult.DocumentId])
-                            {
-                                usersDocumentsAccess[lineResult.UserId][lineResult.DocumentId] = true;
-                                results.Add((lineResult.UserId.ToString(), lineResult.DocumentId.ToString()));
-                            }
-                        }
-                        else
-                        {
-                            usersDocumentsAccess[lineResult.UserId] = new Dictionary<int, bool>
-                                { { lineResult.DocumentId, false } };
+                            results.Add((lineResult.UserId.ToString(), lineResult.DocumentId.ToString()));
                         }
                     }
                 }
-            }
-            
-        } );
-
-        await Task.Run(() =>
-        {
-            using (var streamReader = new StreamReader(pathToYesterdayReport))
-            {
-                while (streamReader.ReadLine() is { } singleLine)
+                else
                 {
-                    var lineResult = singleLine.GetDateFromLine();
-                    if (!lineResult.IsSuccess)
-                    {
-                        continue;
-                    }
-
-                    lock (results)
-                    {
-                        if (usersDocumentsAccess.ContainsKey(lineResult.UserId))
-                        {
-                            if (!usersDocumentsAccess[lineResult.UserId].TryAdd(lineResult.DocumentId, false) &&
-                                !usersDocumentsAccess[lineResult.UserId][lineResult.DocumentId])
-                            {
-                                usersDocumentsAccess[lineResult.UserId][lineResult.DocumentId] = true;
-                                results.Add((lineResult.UserId.ToString(), lineResult.DocumentId.ToString()));
-                            }
-                        }
-                        else
-                        {
-                            usersDocumentsAccess[lineResult.UserId] = new Dictionary<int, bool>
-                                { { lineResult.DocumentId, false } };
-                        }
-                    }
+                    usersDocumentsAccess[lineResult.UserId] = new Dictionary<int, bool>
+                        { { lineResult.DocumentId, false } };
                 }
             }
-            
-        } );
-        
-        return results;
+        }
     }
 }

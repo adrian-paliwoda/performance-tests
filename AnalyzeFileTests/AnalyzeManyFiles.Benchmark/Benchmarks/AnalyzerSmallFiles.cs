@@ -5,50 +5,51 @@ using SampleData;
 
 namespace AnalyzeManyFiles.Benchmark.Benchmarks;
 
+[MemoryDiagnoser]
 public class AnalyzerSmallFiles
 {
     private static readonly string TodayReportPath = Paths.TodayReportSmallPath;
-    private static readonly string YesterdayReportPath = Paths.TodayReportSmallPath;
+    private static readonly string YesterdayReportPath = Paths.YesterdayReportSmallPath;
 
     [Benchmark]
-    public void SmallFile_SharedLock()
+    public async Task<List<(string, string)>> SmallFile_SharedLock()
     {
         var fileProcessor = new FileProcessorTaskSharedLock();
-        _ = fileProcessor.AnalyzeFiles(TodayReportPath, YesterdayReportPath);
+        return await fileProcessor.AnalyzeFiles(TodayReportPath, YesterdayReportPath);
     }
 
     [Benchmark]
-    public void SmallFile_SeparateAnalyze()
+    public async Task<List<(string, string)>> SmallFile_SeparateAnalyze()
     {
         var fileProcessor = new FileProcessorTaskSeparate(new StreamReaderWithReadLineStrategy());
-        _ = fileProcessor.AnalyzeFiles(TodayReportPath, YesterdayReportPath);
+        return await fileProcessor.AnalyzeFiles(TodayReportPath, YesterdayReportPath);
     }
 
     [Benchmark]
-    public void SmallFile_TaskSeparateWithUnionWith()
+    public async Task<List<(string, string)>> SmallFile_TaskSeparateWithUnionWith()
     {
         var fileProcessor = new FileProcessorTaskSeparateWithUnionWith(new StreamReaderWithReadLineStrategy());
-        _ = fileProcessor.AnalyzeFiles(TodayReportPath, YesterdayReportPath);
+        return await fileProcessor.AnalyzeFiles(TodayReportPath, YesterdayReportPath);
     }
 
     [Benchmark]
-    public void SmallFile_SeparateWithConcatAndDistinct()
+    public async Task<List<(string, string)>> SmallFile_SeparateWithConcatAndDistinct()
     {
         var fileProcessor = new FileProcessorTaskSeparateWithConcatAndDistinct(new StreamReaderWithReadLineStrategy());
-        _ = fileProcessor.AnalyzeFiles(TodayReportPath, YesterdayReportPath);
+        return await fileProcessor.AnalyzeFiles(TodayReportPath, YesterdayReportPath);
     }
-    
+
     [Benchmark]
-    public void SmallFile_SharedHashSet()
+    public async Task<List<(string, string)>> SmallFile_SharedHashSet()
     {
         var fileProcessor = new FileProcessorTaskWIthSharedHashSet(new StreamReaderWithReadLineStrategyWithSharedHashSetStrategy());
-        _ = fileProcessor.AnalyzeFiles(TodayReportPath, YesterdayReportPath);
+        return await fileProcessor.AnalyzeFiles(TodayReportPath, YesterdayReportPath);
     }
-    
+
     [Benchmark]
-    public void SmallFile_SharedConcurrentDictionary()
+    public async Task<List<(string, string)>> SmallFile_SharedConcurrentDictionary()
     {
         var fileProcessor = new FileProcessorTaskWIthSharedConcurrentDictionary(new StreamReaderWithReadLineStrategyWithSharedConcurrentDictionaryStrategy());
-        _ = fileProcessor.AnalyzeFiles(TodayReportPath, YesterdayReportPath);
+        return await fileProcessor.AnalyzeFiles(TodayReportPath, YesterdayReportPath);
     }
 }

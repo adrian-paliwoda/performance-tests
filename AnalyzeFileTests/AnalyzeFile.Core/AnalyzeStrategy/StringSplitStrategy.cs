@@ -12,7 +12,7 @@ public class StringSplitStrategy : IAnalyzeFileStrategy
 
         using (var streamReader = File.OpenText(pathToReport))
         {
-            var lines = streamReader.ReadToEnd().Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            var lines = streamReader.ReadToEnd().Split(["\r\n", "\n"], StringSplitOptions.RemoveEmptyEntries);
             foreach (var line in lines)
             {
                 var lineResult = line.GetDateFromLine();
